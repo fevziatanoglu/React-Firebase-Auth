@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+// to call routes
+import { useSelector } from "react-redux";
+import { useRoutes } from "react-router-dom";
+
+import routes from "./routes";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    // user info save in user.data
+    const user = useSelector(state => state.auth.user)
+    const showRoutes = useRoutes(routes);
+
+
+
+
+    // if user is waiting for firebase
+    // when user is waiting user: false
+    if (!user) {
+        return (<div style={{ color: "white" }}>
+            Loading...
+        </div>)
+    }
+
+    return user && (
+        <>
+            <ToastContainer
+            />
+            {showRoutes}
+        </>
+    );
 }
 
 export default App;
